@@ -30,16 +30,20 @@ namespace AkkaDiningPhilosophers
                 if (msg == "PickUp" && IsOnTable)
                 {
                     Report.Tell("Fork " + ForkID + " has been picked up");
-                    IsOnTable = false;
                     Sender.Tell(new AckMessage());
+                    
+                    
                 }
-                else if (msg == "PutDown" && !IsOnTable)
-                {
-                    Report.Tell("Fork " + ForkID + " has been put down");
-                    IsOnTable = true;
-                    Sender.Tell(new AckMessage());
-                }
+                
             });
+            Receive<string>((msg) =>
+                {
+                    if (msg == "PutDown" && !IsOnTable)
+                    {
+                        Report.Tell("Fork " + ForkID + " has been put down");
+                        Sender.Tell(new AckMessage());
+                    }
+                });
 
         }
 

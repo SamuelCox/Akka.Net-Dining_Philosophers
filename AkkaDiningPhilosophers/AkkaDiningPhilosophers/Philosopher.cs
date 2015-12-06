@@ -40,37 +40,34 @@ namespace AkkaDiningPhilosophers
 
         public void EnterThinkingState()
         {
-            Thread.Sleep(RandomGenerator.Next(1000) + 1);
+            Thread.Sleep(RandomGenerator.Next(3000) + 1000);
             Status = "thinking";
             Report.Tell(Name + " is " + Status);
-            Thread.Sleep(RandomGenerator.Next(1000) + 1);
+            Thread.Sleep(RandomGenerator.Next(3000) + 1000);
 
         }
 
-        public void EnterHungryState()
+        public async void EnterHungryState()
         {
             Status = "hungry";
             Report.Tell(Name + " is " + Status);
-            LeftFork.Tell("PickUp");
-            Receive<AckMessage>((message) =>
-                Report.Tell(Name + " has picked up the left Fork"));
-            RightFork.Tell("PickUp");
-            Receive<AckMessage>((message) =>
-                Report.Tell(Name + " has picked up the right Fork"));
+            await LeftFork.Ask("PickUp");
+            Report.Tell(Name + " has picked up the left Fork");
+            await RightFork.Ask("PickUp");
+            Report.Tell(Name + " has picked up the right Fork");                        
             EnterEatingState();
         }
 
-        public void EnterEatingState()
+        public async void EnterEatingState()
         {
             Status = "eating";
             Report.Tell(Name + " is " + Status);
             Thread.Sleep(RandomGenerator.Next(1000) + 1);
-            LeftFork.Tell("PutDown");
-            Receive<AckMessage>((message) =>
-                Report.Tell(Name + " has put down the left Fork"));
-            RightFork.Tell("PutDown");
-            Receive<AckMessage>((message) =>
-                Report.Tell(Name + " has put down the right Fork"));
+            await LeftFork.Ask("PutDown");
+            Report.Tell(Name + " has put down the Left Fork");
+            await RightFork.Ask("PutDown");
+            Report.Tell(Name + " has put down the Right Fork");
+            
             
         }
 
