@@ -23,7 +23,7 @@ namespace AkkaDiningPhilosophers
             LeftFork = leftFork;
             RightFork = rightFork;
             Report = report;
-            RandomGenerator = new Random();
+            RandomGenerator = new Random(DateTime.Today.Millisecond);
             StateTransition();
         }
 
@@ -40,10 +40,10 @@ namespace AkkaDiningPhilosophers
 
         public async void EnterThinkingState()
         {
-            Thread.Sleep(RandomGenerator.Next(3000) + 1000);
+            Thread.Sleep(RandomGenerator.Next(1000) + 1);
             Status = "thinking";
             await Report.Ask(Name + " is " + Status);
-            Thread.Sleep(RandomGenerator.Next(3000) + 1000);
+            Thread.Sleep(RandomGenerator.Next(1000) + 1);
 
         }
 
