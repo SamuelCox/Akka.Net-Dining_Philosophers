@@ -36,7 +36,7 @@ namespace AkkaDiningPhilosophers
                 }
                 
             });
-            Receive<string>((msg) =>
+            Receive<string>( (msg) =>
                 {
                     if (msg == "PutDown" && !IsOnTable)
                     {

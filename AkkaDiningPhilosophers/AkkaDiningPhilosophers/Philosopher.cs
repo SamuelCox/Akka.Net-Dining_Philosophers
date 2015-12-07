@@ -38,11 +38,11 @@ namespace AkkaDiningPhilosophers
 
         }
 
-        public void EnterThinkingState()
+        public async void EnterThinkingState()
         {
             Thread.Sleep(RandomGenerator.Next(3000) + 1000);
             Status = "thinking";
-            Report.Tell(Name + " is " + Status);
+            await Report.Ask(Name + " is " + Status);
             Thread.Sleep(RandomGenerator.Next(3000) + 1000);
 
         }
@@ -61,7 +61,7 @@ namespace AkkaDiningPhilosophers
         public async void EnterEatingState()
         {
             Status = "eating";
-            Report.Tell(Name + " is " + Status);
+            await Report.Ask(Name + " is " + Status);
             Thread.Sleep(RandomGenerator.Next(1000) + 1);
             await LeftFork.Ask("PutDown");
             Report.Tell(Name + " has put down the Left Fork");

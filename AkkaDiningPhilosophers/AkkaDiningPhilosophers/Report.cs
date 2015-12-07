@@ -11,7 +11,10 @@ namespace AkkaDiningPhilosophers
         public Report()
         {
             Receive<string>((message) =>
-                Console.WriteLine(message));
+                {                    
+                    Console.WriteLine(message);
+                });
+                
         }
 
         
