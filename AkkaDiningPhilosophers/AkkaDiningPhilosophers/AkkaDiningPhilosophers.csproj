@@ -49,7 +49,9 @@
   <ItemGroup>
     <Compile Include="AckMessage.cs" />
     <Compile Include="College.cs" />
+    <Compile Include="FailMessage.cs" />
     <Compile Include="Fork.cs" />
+    <Compile Include="Message.cs" />
     <Compile Include="Philosopher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace AkkaDiningPhilosophers
 {
-    class AckMessage : Message
+    class Message
     {
-        public AckMessage()
-        {
-
-        }
     }
 }

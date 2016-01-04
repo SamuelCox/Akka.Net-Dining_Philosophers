@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace AkkaDiningPhilosophers
 {
-    class AckMessage : Message
+    class FailMessage : Message
     {
-        public AckMessage()
+        public FailMessage()
         {
 
         }

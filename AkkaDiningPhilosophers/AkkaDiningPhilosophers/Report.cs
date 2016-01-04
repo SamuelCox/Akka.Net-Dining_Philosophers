@@ -13,8 +13,8 @@ namespace AkkaDiningPhilosophers
         {
             Receive<string>((message) =>
                 {
-                    Thread.Sleep(1000);
                     Console.WriteLine(message);
+                    
                 });
                 
         }

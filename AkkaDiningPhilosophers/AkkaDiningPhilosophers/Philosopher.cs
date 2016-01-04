@@ -27,41 +27,44 @@ namespace AkkaDiningPhilosophers
             StateTransition();
         }
 
-        public void StateTransition()
+        public async Task<bool> StateTransition()
         {
             while (true)
             {
                 EnterThinkingState();
-                EnterHungryState();
+                await EnterHungryState();
                 EnterEatingState();
             }
+            
 
         }
 
-        public async void EnterThinkingState()
+        public void EnterThinkingState()
         {
             Thread.Sleep(RandomGenerator.Next(1000) + 1);
             Status = "thinking";
-            await Report.Ask(Name + " is " + Status);
+            Report.Tell(Name + " is " + Status);
             Thread.Sleep(RandomGenerator.Next(1000) + 1);
 
         }
 
-        public async void EnterHungryState()
+        public async Task<bool> EnterHungryState()
         {
             Status = "hungry";
             Report.Tell(Name + " is " + Status);
-            await LeftFork.Ask("PickUp");
-            Report.Tell(Name + " has picked up the left Fork");
-            await RightFork.Ask("PickUp");
-            Report.Tell(Name + " has picked up the right Fork");                        
-            EnterEatingState();
+            bool result = false;
+            while(result == false)
+            {
+                result = await AttemptToPickUpForks();
+            }
+            return true;
+
         }
 
         public async void EnterEatingState()
         {
             Status = "eating";
-            await Report.Ask(Name + " is " + Status);
+            Report.Tell(Name + " is " + Status);
             Thread.Sleep(RandomGenerator.Next(1000) + 1);
             await LeftFork.Ask("PutDown");
             Report.Tell(Name + " has put down the Left Fork");
@@ -70,6 +73,24 @@ namespace AkkaDiningPhilosophers
             
             
         }
+
+        public async Task<bool> AttemptToPickUpForks()
+        {
+            object leftResult = await LeftFork.Ask("PickUp");
+            Report.Tell(Name + " has picked up the left Fork");
+            object rightResult = await RightFork.Ask("PickUp");
+            Report.Tell(Name + " has picked up the right Fork");                                    
+            if(leftResult is AckMessage && rightResult is AckMessage)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        
 
     }
 }
